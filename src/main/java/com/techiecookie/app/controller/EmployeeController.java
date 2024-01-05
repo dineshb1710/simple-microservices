@@ -2,17 +2,19 @@ package com.techiecookie.app.controller;
 
 import com.techiecookie.app.model.Employee;
 import com.techiecookie.app.service.EmployeeService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/employee")
-@RequiredArgsConstructor
 public class EmployeeController {
 
-    private final EmployeeService employeeService;
+    @Autowired
+    @Qualifier("employeeServiceImpl")
+    private EmployeeService employeeService;
 
     @PostMapping("/add")
     public Employee addEmployee(@RequestBody Employee employee) {

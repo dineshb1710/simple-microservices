@@ -2,22 +2,38 @@ package com.techiecookie.app.controller;
 
 import com.techiecookie.app.model.Employee;
 import com.techiecookie.app.service.EmployeeService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v2/employee")
-@RequiredArgsConstructor
 public class EmployeeControllerV2 {
 
-    private final EmployeeService employeeService;
+    @Autowired
+    @Qualifier("employeeV2ServiceImpl")
+    private EmployeeService employeeService;
 
     @PostMapping("/add")
     public Employee addEmployee(@RequestBody Employee employee) {
-        return employee;
+        return employeeService.save(employee);
+    }
+
+    @GetMapping("/all")
+    public List<Employee> getAll() {
+        return employeeService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Employee get(@PathVariable String id) {
+        return employeeService.get(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable String id) {
+        return employeeService.delete(id);
     }
 
 }
